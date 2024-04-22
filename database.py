@@ -6,6 +6,7 @@ import psycopg2
 app = Flask(__name__)
 conn = None
 
+#HISTORIA DE USUARIO 1: CONEXION A LA BASE DE DATOS AGREGANDO LOS DATOS PROPORCIONADOS
 # Cargar variables de entorno desde el archivo .env.development.local
 load_dotenv('.env.development.local')
 
