@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from database import connectDataBase
 import psycopg2
 
@@ -29,6 +29,10 @@ def get_taxis():
     except psycopg2.Error as e:
         print("Error al obtener los datos de la base de datos:", e)
         return jsonify({'error': 'No se pudieron obtener los datos de la base de datos'}), 500
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'No se encontró el recurso solicitado'}), 404)
 
 if __name__ == '__main__':
     app.run(debug=True)
