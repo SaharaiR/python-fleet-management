@@ -222,7 +222,7 @@ with app.test_request_context():
 
 
 #Generar el archivo de documentación
-with open('swagger.json', 'w') as f:
+with open('swagger.yml', 'w') as f:
     f.write(spec.to_yaml())
 
 @app.errorhandler(404)
