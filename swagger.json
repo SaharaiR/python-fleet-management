@@ -1,0 +1,60 @@
+paths:
+  /taxis: {}
+  /taxis/{taxi_id}/locations: {}
+  /taxis/{taxi_id}/last-location: {}
+info:
+  title: Swagger Fleet Management API
+  version: 1.0.0
+openapi: 3.0.2
+components:
+  schemas:
+    TaxiSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del taxi
+        plate:
+          type: string
+          description: Placa del taxi
+      required:
+      - id
+      - plate
+    TaxiLocationSchema:
+      type: object
+      properties:
+        fecha:
+          type: string
+          format: date
+          description: Fecha de la ubicacion
+        latitud:
+          type: number
+          description: Latitud de la ubicacion
+        longitud:
+          type: number
+          description: Longitud de la ubicacion
+      required:
+      - fecha
+      - latitud
+      - longitud
+    LastLocationSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del taxi
+        fecha:
+          type: string
+          format: date
+          description: Fecha de ultima localizacion
+        latitud:
+          type: number
+          description: Latitud de la ultima localizacion
+        longitud:
+          type: number
+          description: Longitud de la ultima localizacion
+      required:
+      - fecha
+      - id
+      - latitud
+      - longitud
