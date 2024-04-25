@@ -107,6 +107,11 @@ def getTaxiLocations(taxi_id):
     Lista todos las localizaciones de un taxi, según ID y fecha
     ---
     get:
+        tags:
+            - Localizaciones
+        summary: Lista de todas las localizaciones segun ID y fecha
+        description: Listado de todas las localizaciones segun ID y fecha
+        operationId: getTaxiLocations
         parameters:
             - in: path
               name: taxi_id
@@ -175,6 +180,11 @@ def getLastLocation(taxi_id):
     Lista todos las localizaciones de un taxi, según ID y fecha
     ---
     get:
+        tags:
+            - Ultima localizacion
+        summary: Muestra la ultima localizacion de un taxi segun ID
+        description: Listado de la ultima localizacion de un taxi segun ID
+        operationId: getLastLocation
         parameters:
             - in: path
               name: taxi_id
