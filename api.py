@@ -9,7 +9,7 @@ import psycopg2
 
 app = Flask(__name__)
 conn = connectDataBase()
-# Create an APISpec
+# Crear una APISpec
 spec = APISpec(
     title="Swagger Fleet Management API",
     version="1.0.0",
@@ -38,30 +38,37 @@ def getTaxis():
     """
     Lista todos los taxis con su ID y placa
     ---
-    parameters:
-      - name: page
-        in: query
-        type: integer
-        required: false
-        description: Número de página para la paginación
-        default: 1
-      - name: per_page
-        in: query
-        type: integer
-        required: false
-        description: Taxis por página
-        default: 10
-    responses:
-      200:
-        description: Lista de taxis obtenida exitosamente
-        content:
-            application/json:
-              schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/TaxiSchema'
-      500:
-        description: Error al obtener los datos de la base de datos
+    get:
+        tags:
+            - Taxi
+        summary: Lista todos los taxis
+        description: Listado de todos los taxis con su ID y placa
+        operationId: getTaxis
+        parameters:
+            - in: query
+              name: page
+              description: Numero de pagina para la paginacion
+              schema:
+                type: integer
+                format: int32
+                minimum: 1
+                default: 1
+            - in: query
+              name: per_page
+              description: Taxis por pagina
+              schema:
+                type: integer
+                format: int32
+                minimum: 1
+                default: 10
+        responses:
+            200:
+                description: OK
+                content:
+                    application/json:
+                        schema: TaxiSchema
+            500:
+                description: Error al obtener los datos de la base de datos
     """
     # Obtener parámetros de paginación de la solicitud
     page = int(request.args.get('page', 1))
@@ -99,28 +106,26 @@ def getTaxiLocations(taxi_id):
     """
     Lista todos las localizaciones de un taxi, según ID y fecha
     ---
-    parameters:
-      - name: taxi_id
-        in: path
-        type: integer
-        required: true
-        description: ID del taxi
-      - name: date
-        in: query
-        type: string
-        required: true
-        description: Fecha en formato YYYY-MM-DD
-    responses:
-      200:
-        description: Localizaciones del taxi obtenidas exitosamente
-        content:
-            application/json:
-              schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/TaxiLocationSchema'
-      500:
-        description: Error al obtener los datos de la base de datos
+    get:
+        parameters:
+            - in: path
+              name: taxi_id
+              description: ID del taxi
+              required: True
+              schema: { type: integer }
+            - in: query
+              name: date
+              description: Fecha en formato YYYY-MM-DD
+              required: True
+              schema: { type: string, format: date }
+        responses:
+            200:
+                description: Localizaciones del taxi obtenidas exitosamente
+                content:
+                    application/json:
+                        schema: TaxiLocationSchema
+            500:
+                description: Error al obtener los datos de la base de datos      
     """    
     try:
         # Obtener el parámetro de la fecha (en formato YYYY-MM-DD)
@@ -153,7 +158,6 @@ spec.components.schema("TaxiLocationSchema", schema=TaxiLocationSchema)
 # Registrar la ruta y las entidades dentro de ella con apispec
 with app.test_request_context():
     spec.path(view=getTaxiLocations)
-    
 
 #HISTORIA DE USUARIO 4 - MOSTRAR LA ULTIMA LOCALIZACION DE UN TAXI, DADO SU ID
         
@@ -170,25 +174,23 @@ def getLastLocation(taxi_id):
     """
     Lista todos las localizaciones de un taxi, según ID y fecha
     ---
-    parameters:
-      - name: taxi_id
-        in: path
-        type: integer
-        required: true
-        description: ID del taxi
-    responses:
-      200:
-        description: Ultima localizacion del taxi obtenida exitosamente
-        content:
-            application/json:
-              schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/LastLocationSchema'
-      404:
-        description: No se encontraron ubicaciones para el taxi con ID proporcionado
-      500:
-        description: Error al obtener los datos de la base de datos
+    get:
+        parameters:
+            - in: path
+              name: taxi_id
+              description: ID del taxi
+              required: True
+              schema: { type: integer }
+        responses:
+            200:
+                description: Ultima localizacion del taxi obtenida exitosamente
+                content:
+                    application/json:
+                        schema: LastLocationSchema
+            404:
+                description: No se encontraron ubicaciones para el taxi con ID proporcionado
+            500:
+                description: Error al obtener los datos de la base de datos
     """
     try:
         cursor = conn.cursor()
@@ -219,7 +221,6 @@ spec.components.schema("LastLocationSchema", schema=LastLocationSchema)
 # Registrar la ruta y las entidades dentro de ella con apispec
 with app.test_request_context():
     spec.path(view=getLastLocation)
-
 
 #Generar el archivo de documentación
 with open('swagger.yml', 'w') as f:

@@ -1,7 +1,82 @@
 paths:
-  /taxis: {}
-  /taxis/{taxi_id}/locations: {}
-  /taxis/{taxi_id}/last-location: {}
+  /taxis:
+    get:
+      tags:
+      - Taxi
+      summary: Lista todos los taxis
+      description: Listado de todos los taxis con su ID y placa
+      operationId: getTaxis
+      parameters:
+      - in: query
+        name: page
+        description: Numero de pagina para la paginacion
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          default: 1
+      - in: query
+        name: per_page
+        description: Taxis por pagina
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          default: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxiSchema'
+        '500':
+          description: Error al obtener los datos de la base de datos
+  /taxis/{taxi_id}/locations:
+    get:
+      parameters:
+      - in: path
+        name: taxi_id
+        description: ID del taxi
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: date
+        description: Fecha en formato YYYY-MM-DD
+        required: true
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Localizaciones del taxi obtenidas exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxiLocationSchema'
+        '500':
+          description: Error al obtener los datos de la base de datos
+  /taxis/{taxi_id}/last-location:
+    get:
+      parameters:
+      - in: path
+        name: taxi_id
+        description: ID del taxi
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Ultima localizacion del taxi obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LastLocationSchema'
+        '404':
+          description: No se encontraron ubicaciones para el taxi con ID proporcionado
+        '500':
+          description: Error al obtener los datos de la base de datos
 info:
   title: Swagger Fleet Management API
   version: 1.0.0
