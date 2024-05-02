@@ -1,4 +1,5 @@
 
+
 # API Fleet Management
 
 Objetivo General: Nuestra cliente ha instalado dispositivos GPS en sus taxis. Estos dispositivos utilizan señales satelitales para determinar con precisión las coordenadas geográficas del taxi.
@@ -97,6 +98,11 @@ Esquema de resultado:
   "longitud": 0
 }
 ```
+
+## API Publicada en Swagger:
+
+https://app.swaggerhub.com/apis/SAHARAROD/APIFleetM/1.0.0#/info
+
 
 ## Stack de tecnologías:
 - Python
