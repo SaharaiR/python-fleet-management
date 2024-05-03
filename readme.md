@@ -125,3 +125,6 @@ https://app.swaggerhub.com/apis/SAHARAROD/APIFleetM/1.0.0#/info
 
 - Pruebas unitarias y de integración para una API REST: 
   https://apuntes.de/python/desarrollo-de-una-api-rest-con-flask-en-python-creacion-de-una-interfaz-de-programacion-de-aplicaciones-restful/#gsc.tab=0
+
+- Consulta SQL con paginación:
+  https://www.sqlshack.com/es/sql-server-2012-introduccion-paginacion/
